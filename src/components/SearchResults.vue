@@ -5,6 +5,11 @@
       :key="recipe.id"
       :recipe="recipe"
     ></each-result>
+    <div class="page-buttons er" v-if="searchedRecipes.length > 0">
+      <button class="prev-btn er">Prev.</button>
+      <button class="view-all er">View The List</button>
+      <button class="next er">Next</button>
+    </div>
   </div>
 </template>
 
@@ -35,7 +40,19 @@ export default {
 .search-results {
   width: 600px;
   margin-top: 10px;
-  background-color: wheat;
+  background-color: rgb(253, 245, 229);
   color: black;
+  border-radius: 5px;
+
+  .page-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 0;
+
+    button {
+      cursor: pointer;
+    }
+  }
 }
 </style>
