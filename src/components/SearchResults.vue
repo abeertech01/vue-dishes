@@ -7,7 +7,9 @@
     ></each-result>
     <div class="page-buttons er" v-if="searchedRecipes.length > 0">
       <div class="paginations er" v-if="pageNum > 1">
-        <span>Pages: </span>
+        <div class="page-text er">
+          Page <span class="present-page-btn er">{{ presentPage }} </span> of
+        </div>
         <button
           class="page-btn er"
           v-for="num in pageNum"
@@ -18,7 +20,7 @@
         </button>
       </div>
       <div class="view-list-div er">
-        <button class="view-list-btn er">View List</button>
+        <button class="view-list-btn er">View The List</button>
       </div>
     </div>
   </div>
@@ -39,6 +41,8 @@ export default {
 
     const startNum = ref(0);
     const endNum = ref(8);
+
+    const presentPage = ref(1);
 
     const pageRenew = computed(() => {
       return store.getters.renewer;
@@ -84,11 +88,15 @@ export default {
       } else {
         endNum.value = searchedRecipes.value.length;
       }
+
+      presentPage.value = num;
     };
 
     watch(pageRenew, () => {
       startNum.value = 0;
       endNum.value = 8;
+
+      presentPage.value = 1;
     });
 
     return {
@@ -96,6 +104,7 @@ export default {
       pageNum,
       pageRecipes,
       pageNumClick,
+      presentPage,
     };
   },
 };
@@ -121,6 +130,22 @@ export default {
     }
 
     .paginations {
+      .page-text {
+        display: inline;
+        margin-right: 10px;
+
+        .present-page-btn {
+          // background-color: rgb(255, 81, 81);
+          border: 1px solid #000;
+          color: #000;
+
+          padding: 0px 11px;
+          font-size: 17px;
+          border-radius: 50%;
+          // color: white;
+        }
+      }
+
       .page-btn {
         border: none;
         margin-right: 1px;
