@@ -4,6 +4,7 @@ const store = createStore({
   state() {
     return {
       recipes: [],
+      renewer: false
     }
   },
   mutations: {
@@ -12,6 +13,9 @@ const store = createStore({
     },
     EMPTY_RECIPES(state) {
       state.recipes = [];
+    },
+    PAGE_RENEWER(state) {
+      state.renewer = !state.renewer;
     }
   },
   actions: {
@@ -42,6 +46,9 @@ const store = createStore({
   getters: {
     recipes(state) {
       return state.recipes;
+    },
+    renewer(state) {
+      return state.renewer;
     }
   }
 });

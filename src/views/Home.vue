@@ -61,6 +61,7 @@ export default {
 
     const searchRec = function () {
       store.dispatch("getRecipes", inputSearch.value);
+      store.commit("PAGE_RENEWER");
     };
     const blackClick = function (e) {
       const arr = [];
