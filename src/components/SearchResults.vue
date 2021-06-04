@@ -132,7 +132,7 @@ export default {
     .paginations {
       .page-text {
         display: inline;
-        margin-right: 10px;
+        margin-right: 5px;
 
         .present-page-btn {
           // background-color: rgb(255, 81, 81);
@@ -153,6 +153,17 @@ export default {
         padding: 2px 7px;
         border-radius: 50%;
         color: white;
+      }
+    }
+
+    .view-list-div {
+      .view-list-btn {
+        padding: 3px 5px;
+        border-radius: 5px;
+        border: none;
+        background-color: salmon;
+        color: white;
+        cursor: pointer;
       }
     }
   }
