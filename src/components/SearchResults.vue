@@ -20,7 +20,9 @@
         </button>
       </div>
       <div class="view-list-div er">
-        <button class="view-list-btn er">View The List</button>
+        <button @click="goToTheList" class="view-list-btn er">
+          View The List
+        </button>
       </div>
     </div>
   </div>
@@ -31,6 +33,7 @@ import EachResult from "./EachResult.vue";
 
 import { ref, computed, watch } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 export default {
   components: {
@@ -38,6 +41,7 @@ export default {
   },
   setup() {
     const store = useStore();
+    const router = useRouter();
 
     const startNum = ref(0);
     const endNum = ref(8);
@@ -92,6 +96,12 @@ export default {
       presentPage.value = num;
     };
 
+    const goToTheList = () => {
+      if (searchedRecipes.value.length) {
+        router.push("/search-list");
+      }
+    };
+
     watch(pageRenew, () => {
       startNum.value = 0;
       endNum.value = 8;
@@ -105,6 +115,7 @@ export default {
       pageRecipes,
       pageNumClick,
       presentPage,
+      goToTheList,
     };
   },
 };

@@ -4,6 +4,7 @@ const store = createStore({
   state() {
     return {
       recipes: [],
+      bookmarkedRecipes: [],
       renewer: false
     }
   },
@@ -16,6 +17,23 @@ const store = createStore({
     },
     PAGE_RENEWER(state) {
       state.renewer = !state.renewer;
+    },
+    BOOKMARK_RECIPE(state, payload) {
+      const recordIndex = state.recipes.findIndex(el => el.id === payload.id);
+      if (state.recipes[recordIndex].bookmark === false) {
+        state.recipes[recordIndex].bookmark = true;
+      } else {
+        state.recipes[recordIndex].bookmark = false;
+      }
+
+      const record = state.recipes.find(el => el.id === payload.id);
+      if (record.bookmark === true) {
+        state.bookmarkedRecipes.push(record);
+      } else {
+        const bookmarkIndex = state.bookmarkedRecipes.findIndex(el => el.id === payload.id);
+        state.bookmarkedRecipes[bookmarkIndex].bookmark = false;
+        state.bookmarkedRecipes.splice(bookmarkIndex, 1);
+      }
     }
   },
   actions: {
@@ -37,6 +55,7 @@ const store = createStore({
           title: data.data.recipes[i].title,
           publisher: data.data.recipes[i].publisher,
           imageUrl: data.data.recipes[i].image_url,
+          bookmark: false
         })
       }
 
@@ -46,6 +65,9 @@ const store = createStore({
   getters: {
     recipes(state) {
       return state.recipes;
+    },
+    bookmarkedRecipes(state) {
+      return state.bookmarkedRecipes;
     },
     renewer(state) {
       return state.renewer;
