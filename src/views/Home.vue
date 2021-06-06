@@ -8,7 +8,7 @@
         <div class="main-content">
           <!-- Header -->
           <div class="header">
-            <button class="bookmarks" @click="goBookmarks">Bookmarks</button>
+            <button class="bookmarks er" @click="goBookmarks">Bookmarks</button>
             <div class="search-recipes">
               <input
                 type="text"
@@ -24,6 +24,7 @@
               <search-results
                 class="s-result"
                 :inputSearch="inputSearch"
+                v-if="isSearched"
               ></search-results>
             </div>
           </div>
@@ -33,8 +34,12 @@
               Food brings people together on many different levels. It's
               nourishment of the soul and body; it's truly love
             </p>
-            <button class="pizza-btn">Pizza Recipes</button>
-            <button class="pasta-btn">Pasta Recipes</button>
+            <button class="pizza-btn" @click="pizzaRecipes">
+              Pizza Recipes
+            </button>
+            <button class="pasta-btn" @click="pastaRecipes">
+              Pasta Recipes
+            </button>
           </div>
         </div>
         <!-- End of Main Content -->
@@ -60,11 +65,14 @@ export default {
     const router = useRouter();
 
     const inputSearch = ref("");
+    const isSearched = ref(false);
 
     const searchRec = function () {
+      isSearched.value = true;
       store.dispatch("getRecipes", inputSearch.value);
       store.commit("PAGE_RENEWER");
     };
+
     const blackClick = function (e) {
       const arr = [];
       for (let i = 0; i < e.target.classList.length; i++) {
@@ -72,6 +80,7 @@ export default {
       }
 
       if (!arr.includes("er")) {
+        isSearched.value = false;
         store.commit("EMPTY_RECIPES");
       }
     };
@@ -80,11 +89,24 @@ export default {
       router.push("/bookmarks");
     };
 
+    const pizzaRecipes = () => {
+      store.dispatch("getRecipes", "pizza");
+      router.push("/search-list");
+    };
+
+    const pastaRecipes = () => {
+      store.dispatch("getRecipes", "pasta");
+      router.push("/search-list");
+    };
+
     return {
       goBookmarks,
       inputSearch,
       searchRec,
       blackClick,
+      isSearched,
+      pizzaRecipes,
+      pastaRecipes,
     };
   },
 };
