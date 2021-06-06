@@ -14,6 +14,7 @@ const store = createStore({
     },
     EMPTY_RECIPES(state) {
       state.recipes = [];
+      state.bookmarkedRecipes = [];
     },
     PAGE_RENEWER(state) {
       state.renewer = !state.renewer;

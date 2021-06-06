@@ -8,7 +8,7 @@
         <div class="main-content">
           <!-- Header -->
           <div class="header">
-            <button class="bookmarks">Bookmarks</button>
+            <button class="bookmarks" @click="goBookmarks">Bookmarks</button>
             <div class="search-recipes">
               <input
                 type="text"
@@ -49,6 +49,7 @@
 import SearchResults from "../components/SearchResults.vue";
 import { ref } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 export default {
   components: {
@@ -56,6 +57,7 @@ export default {
   },
   setup() {
     const store = useStore();
+    const router = useRouter();
 
     const inputSearch = ref("");
 
@@ -74,7 +76,12 @@ export default {
       }
     };
 
+    const goBookmarks = () => {
+      router.push("/bookmarks");
+    };
+
     return {
+      goBookmarks,
       inputSearch,
       searchRec,
       blackClick,

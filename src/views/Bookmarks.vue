@@ -7,21 +7,29 @@
         <button class="home-btn" @click="goHome">
           <i class="fas fa-home"></i> Home
         </button>
-        <h2 class="page-title">Searched Recipes</h2>
-        <button class="bookmarks-btn" @click="goBookmarks">
-          <i class="fas fa-bookmark"></i> Bookmarks
+        <h2 class="page-title">Bookmarked Recipes</h2>
+        <button class="bookmarks-btn" @click="goBack">
+          <i class="fas fa-arrow-left"></i> Back
         </button>
       </div>
       <!-- End of Heading head -->
 
+      <!-- If recipes array is empty -->
+      <div class="empty-sign" v-if="bookmarks.length === 0">
+        <img src="../assets/empty.svg" alt="empty" />
+        <h1 class="empty-text">EMPTY</h1>
+      </div>
+      <!-- End of If recipes array is empty -->
+
       <!-- card views -->
-      <div class="card-views">
+      <div class="card-views" v-else>
         <recipe-card
-          v-for="recipe in searchedRecipes"
+          v-for="recipe in bookmarks"
           :key="recipe.id"
           :cardRecipe="recipe"
         ></recipe-card>
       </div>
+      <!-- End of card views -->
     </div>
     <div class="col-padding"></div>
   </div>
@@ -42,22 +50,22 @@ export default {
     const store = useStore();
     const router = useRouter();
 
-    const searchedRecipes = computed(() => {
-      return store.getters.recipes;
+    const bookmarks = computed(() => {
+      return store.getters.bookmarkedRecipes;
     });
 
     const goHome = () => {
       router.push("/");
     };
 
-    const goBookmarks = () => {
-      router.push("/bookmarks");
+    const goBack = () => {
+      router.go(-1);
     };
 
     return {
-      searchedRecipes,
+      bookmarks,
       goHome,
-      goBookmarks,
+      goBack,
     };
   },
 };
@@ -103,6 +111,22 @@ export default {
       display: grid;
       grid-template-columns: auto auto auto;
       justify-content: space-between;
+    }
+
+    .empty-sign {
+      margin-top: 100px;
+      text-align: center;
+
+      img {
+        width: 40%;
+      }
+
+      .empty-text {
+        margin-top: 50px;
+        font-size: 60px;
+        color: silver;
+        font-family: "Roboto", sans-serif;
+      }
     }
   }
 }
