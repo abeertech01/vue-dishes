@@ -3,6 +3,7 @@ import { createStore } from 'vuex';
 const store = createStore({
   state() {
     return {
+      presentRecipe: {},
       recipes: [],
       bookmarkedRecipes: [],
       renewer: false
@@ -11,6 +12,9 @@ const store = createStore({
   mutations: {
     TAKE_RECIPES(state, payload) {
       state.recipes = payload;
+    },
+    TAKE_RECIPE(state, payload) {
+      state.presentRecipe = payload;
     },
     EMPTY_RECIPES(state) {
       state.recipes = [];
@@ -61,11 +65,37 @@ const store = createStore({
       }
 
       context.commit('TAKE_RECIPES', recipes);
+    },
+    async getRecipe(context, id) {
+      const response = await fetch(`https://forkify-api.herokuapp.com/api/v2/recipes/${id}`);
+
+      if (!response.ok) {
+        const err = new Error('Something went wrong');
+        throw err;
+      }
+
+      const data = await response.json();
+
+      let recipe = {
+        id: data.data.recipe.id,
+        title: data.data.recipe.title,
+        imageUrl: data.data.recipe.image_url,
+        publisher: data.data.recipe.publisher,
+        sourceUrl: data.data.recipe.source_url,
+        cookingTime: data.data.recipe.cooking_time,
+        ingredients: data.data.recipe.ingredients,
+        servings: data.data.recipe.servings
+      };
+
+      context.commit('TAKE_RECIPE', recipe);
     }
   },
   getters: {
     recipes(state) {
       return state.recipes;
+    },
+    presentRecipe(state) {
+      return state.presentRecipe;
     },
     bookmarkedRecipes(state) {
       return state.bookmarkedRecipes;

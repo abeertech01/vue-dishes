@@ -11,7 +11,9 @@
       </div>
 
       <div class="buttons">
-        <button class="see-recipe-btn">See The Recipe</button>
+        <button class="see-recipe-btn" @click="seeRecipe">
+          See The Recipe
+        </button>
         <button class="bookmark-btn" @click="bookmarkIt">
           <i class="fas fa-bookmark" v-if="cardRecipe.bookmark"></i>
           <i class="far fa-bookmark" v-else></i>
@@ -23,17 +25,25 @@
 
 <script>
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 export default {
   props: ["cardRecipe"],
   setup(props) {
     const store = useStore();
+    const router = useRouter();
 
     const bookmarkIt = () => {
       store.commit("BOOKMARK_RECIPE", props.cardRecipe);
     };
+
+    const seeRecipe = () => {
+      router.push("/recipe");
+      store.dispatch("getRecipe", props.cardRecipe.id);
+    };
     return {
       bookmarkIt,
+      seeRecipe,
     };
   },
 };
@@ -41,11 +51,13 @@ export default {
 
 <style lang="scss" scoped>
 @import "../sass/variables.scss";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap");
 
 .recipe-card {
   width: 280px;
   margin-bottom: 50px;
   border-radius: 5px;
+  font-family: "Roboto", sans-serif;
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
     rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 
