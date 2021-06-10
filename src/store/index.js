@@ -18,27 +18,34 @@ const store = createStore({
     },
     EMPTY_RECIPES(state) {
       state.recipes = [];
-      state.bookmarkedRecipes = [];
     },
     PAGE_RENEWER(state) {
       state.renewer = !state.renewer;
     },
     BOOKMARK_RECIPE(state, payload) {
-      const recordIndex = state.recipes.findIndex(el => el.id === payload.id);
-      if (state.recipes[recordIndex].bookmark === false) {
-        state.recipes[recordIndex].bookmark = true;
-      } else {
-        state.recipes[recordIndex].bookmark = false;
-      }
+      if (state.recipes.length) {
+        const recordIndex = state.recipes.findIndex(el => el.id === payload.id);
+        if (state.recipes[recordIndex].bookmark === false) {
+          state.recipes[recordIndex].bookmark = true;
+        } else {
+          state.recipes[recordIndex].bookmark = false;
+        }
 
-      const record = state.recipes.find(el => el.id === payload.id);
-      if (record.bookmark === true) {
-        state.bookmarkedRecipes.push(record);
+        const record = state.recipes.find(el => el.id === payload.id);
+        if (record.bookmark === true) {
+          state.bookmarkedRecipes.push(record);
+        } else {
+          const bookmarkIndex = state.bookmarkedRecipes.findIndex(el => el.id === payload.id);
+          state.bookmarkedRecipes[bookmarkIndex].bookmark = false;
+          state.bookmarkedRecipes.splice(bookmarkIndex, 1);
+        }
       } else {
         const bookmarkIndex = state.bookmarkedRecipes.findIndex(el => el.id === payload.id);
         state.bookmarkedRecipes[bookmarkIndex].bookmark = false;
         state.bookmarkedRecipes.splice(bookmarkIndex, 1);
       }
+
+
     }
   },
   actions: {
