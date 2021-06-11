@@ -1,4 +1,6 @@
+import Fraction from 'fraction.js';
 import { createStore } from 'vuex';
+// import Fraction from 'fraction.js';
 
 const store = createStore({
   state() {
@@ -15,6 +17,14 @@ const store = createStore({
     },
     TAKE_RECIPE(state, payload) {
       state.presentRecipe = payload;
+    },
+    FRACTION_QUANTITY(state) {
+      for (let i = 0; i < state.presentRecipe.ingredients.length; i++) {
+        const quantity = state.presentRecipe.ingredients[i].quantity;
+        const x = new Fraction(quantity);
+        const fracNum = x.toFraction(true);
+        state.presentRecipe.ingredients[i].quantity = fracNum;
+      }
     },
     EMPTY_RECIPES(state) {
       state.recipes = [];
@@ -95,6 +105,7 @@ const store = createStore({
       };
 
       context.commit('TAKE_RECIPE', recipe);
+      context.commit('FRACTION_QUANTITY');
     }
   },
   getters: {
