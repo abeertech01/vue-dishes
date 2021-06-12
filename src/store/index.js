@@ -21,9 +21,13 @@ const store = createStore({
     FRACTION_QUANTITY(state) {
       for (let i = 0; i < state.presentRecipe.ingredients.length; i++) {
         const quantity = state.presentRecipe.ingredients[i].quantity;
-        const x = new Fraction(quantity);
-        const fracNum = x.toFraction(true);
-        state.presentRecipe.ingredients[i].quantity = fracNum;
+        if (quantity !== null) {
+          const x = new Fraction(quantity);
+          const fracNum = x.toFraction(true);
+          state.presentRecipe.ingredients[i].quantity = fracNum;
+        } else {
+          state.presentRecipe.ingredients[i].quantity = '';
+        }
       }
     },
     EMPTY_RECIPES(state) {

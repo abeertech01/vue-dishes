@@ -106,9 +106,13 @@ export default {
       return theRecipe.value.sourceUrl;
     });
 
-    const plusServing = () => {};
+    const plusServing = () => {
+      store.commit('PLUS_SERVINGS');
+    };
 
-    const minusServing = () => {};
+    const minusServing = () => {
+      store.commit('MINUS_SERVINGS');
+    };
 
     const goHome = () => {
       router.push("/");
