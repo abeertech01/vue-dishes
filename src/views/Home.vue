@@ -17,7 +17,7 @@
                 class="er"
                 @keyup.enter="searchRec"
               />
-              <button class="search-btn" @click="searchRec">
+              <button class="search-btn er" @click="searchRec">
                 <i class="fas fa-search"></i> Search
               </button>
 
@@ -67,9 +67,9 @@ export default {
     const inputSearch = ref("");
     const isSearched = ref(false);
 
-    const searchRec = function () {
+    const searchRec = async function () {
       isSearched.value = true;
-      store.dispatch("getRecipes", inputSearch.value);
+      await store.dispatch("getRecipes", inputSearch.value);
       store.commit("PAGE_RENEWER");
     };
 
@@ -89,13 +89,13 @@ export default {
       router.push("/bookmarks");
     };
 
-    const pizzaRecipes = () => {
-      store.dispatch("getRecipes", "pizza");
+    const pizzaRecipes = async () => {
+      await store.dispatch("getRecipes", "pizza");
       router.push("/search-list");
     };
 
-    const pastaRecipes = () => {
-      store.dispatch("getRecipes", "pasta");
+    const pastaRecipes = async () => {
+      await store.dispatch("getRecipes", "pasta");
       router.push("/search-list");
     };
 
@@ -171,6 +171,7 @@ export default {
               font-weight: 500;
               border-radius: 20px;
               border: none;
+              outline: none;
               color: white;
               cursor: pointer;
               position: relative;

@@ -37,9 +37,9 @@ export default {
       store.commit("BOOKMARK_RECIPE", props.cardRecipe);
     };
 
-    const seeRecipe = () => {
+    const seeRecipe = async () => {
+      await store.dispatch("getRecipe", props.cardRecipe.id);
       router.push("/recipe");
-      store.dispatch("getRecipe", props.cardRecipe.id);
     };
     return {
       bookmarkIt,

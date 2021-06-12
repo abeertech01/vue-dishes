@@ -34,11 +34,11 @@
               ><i class="fas fa-user-friends"></i>
               {{ theRecipe.servings }} servings</span
             >
-            <button class="plus" @click="plusServing">
-              <i class="fas fa-plus-circle"></i>
-            </button>
             <button class="minus" @click="minusServing">
               <i class="fas fa-minus-circle"></i>
+            </button>
+            <button class="plus" @click="plusServing">
+              <i class="fas fa-plus-circle"></i>
             </button>
           </div>
           <div class="bookmark">
@@ -107,11 +107,11 @@ export default {
     });
 
     const plusServing = () => {
-      store.commit('PLUS_SERVINGS');
+      store.commit("PLUS_SERVINGS");
     };
 
     const minusServing = () => {
-      store.commit('MINUS_SERVINGS');
+      store.commit("MINUS_SERVINGS");
     };
 
     const goHome = () => {
@@ -235,7 +235,7 @@ export default {
             margin-right: 10px;
           }
 
-          .plus {
+          .minus {
             margin-right: 5px;
           }
 

@@ -21,9 +21,9 @@ export default {
     const store = useStore();
     const router = useRouter();
 
-    const openRecipe = () => {
+    const openRecipe = async () => {
+      await store.dispatch("getRecipe", props.recipe.id);
       router.push("/recipe");
-      store.dispatch("getRecipe", props.recipe.id);
     };
 
     return {

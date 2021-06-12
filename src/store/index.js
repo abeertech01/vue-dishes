@@ -1,11 +1,9 @@
-import Fraction from 'fraction.js';
 import { createStore } from 'vuex';
-// import Fraction from 'fraction.js';
 
 const store = createStore({
   state() {
     return {
-      presentRecipe: {},
+      presentRecipe: null,
       recipes: [],
       bookmarkedRecipes: [],
       renewer: false
@@ -17,18 +15,6 @@ const store = createStore({
     },
     TAKE_RECIPE(state, payload) {
       state.presentRecipe = payload;
-    },
-    FRACTION_QUANTITY(state) {
-      for (let i = 0; i < state.presentRecipe.ingredients.length; i++) {
-        const quantity = state.presentRecipe.ingredients[i].quantity;
-        if (quantity !== null) {
-          const x = new Fraction(quantity);
-          const fracNum = x.toFraction(true);
-          state.presentRecipe.ingredients[i].quantity = fracNum;
-        } else {
-          state.presentRecipe.ingredients[i].quantity = '';
-        }
-      }
     },
     EMPTY_RECIPES(state) {
       state.recipes = [];
@@ -60,6 +46,30 @@ const store = createStore({
       }
 
 
+    },
+    PLUS_SERVINGS(state) {
+      const oldServings = state.presentRecipe.servings;
+      state.presentRecipe.servings++;
+
+      for (let i = 0; i < state.presentRecipe.ingredients.length; i++) {
+        if (state.presentRecipe.ingredients[i].quantity !== null) {
+          const quantity = state.presentRecipe.ingredients[i].quantity;
+          const quan4Single = quantity / oldServings;
+          state.presentRecipe.ingredients[i].quantity = quan4Single * state.presentRecipe.servings;
+        }
+      }
+    },
+    MINUS_SERVINGS(state) {
+      const oldServings = state.presentRecipe.servings;
+      state.presentRecipe.servings--;
+
+      for (let i = 0; i < state.presentRecipe.ingredients.length; i++) {
+        if (state.presentRecipe.ingredients[i].quantity !== null) {
+          const quantity = state.presentRecipe.ingredients[i].quantity;
+          const quan4Single = quantity / oldServings;
+          state.presentRecipe.ingredients[i].quantity = quan4Single * state.presentRecipe.servings;
+        }
+      }
     }
   },
   actions: {
@@ -109,7 +119,6 @@ const store = createStore({
       };
 
       context.commit('TAKE_RECIPE', recipe);
-      context.commit('FRACTION_QUANTITY');
     }
   },
   getters: {
