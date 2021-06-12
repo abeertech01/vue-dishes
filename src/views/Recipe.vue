@@ -79,7 +79,7 @@
           {{ theRecipe.publisher }}. Please check out directions at their
           website.
         </p>
-        <a :href="`${recipeSource}`" class="direction-btn">
+        <a :href="`${recipeSource}`" target="_blank" class="direction-btn">
           directions <i class="fas fa-arrow-right"></i>
         </a>
       </div>

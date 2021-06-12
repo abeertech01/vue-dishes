@@ -1,5 +1,5 @@
 <template>
-  <div class="each-recipe er">
+  <div class="each-recipe er" @click="openRecipe">
     <div
       class="image er"
       :style="{ backgroundImage: 'url(' + recipe.imageUrl + ')' }"
@@ -12,8 +12,24 @@
 </template>
 
 <script>
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+
 export default {
   props: ["recipe"],
+  setup(props) {
+    const store = useStore();
+    const router = useRouter();
+
+    const openRecipe = () => {
+      router.push("/recipe");
+      store.dispatch("getRecipe", props.recipe.id);
+    };
+
+    return {
+      openRecipe,
+    };
+  },
 };
 </script>
 
@@ -24,6 +40,7 @@ export default {
   align-items: center;
   border-bottom: 1px solid rgb(199, 199, 199);
   padding: 0 5px;
+  cursor: pointer;
 
   .image {
     width: 60px;
